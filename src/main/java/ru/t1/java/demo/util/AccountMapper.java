@@ -8,5 +8,6 @@ import ru.t1.java.demo.model.Account;
 @Mapper(componentModel = "spring")
 public interface AccountMapper {
     Account toAccount(NewAccountDto newAccountDto);
+
     AccountDto toDto(Account account);
 }

@@ -17,13 +17,8 @@ public class Account extends AbstractPersistable<Long> {
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private Type type;
+    private AccountType type;
 
     @Column(name = "balance")
     private Double balance;
-
-    public enum Type {
-        DEBIT,
-        CREDIT
-    }
 }

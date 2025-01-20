@@ -1,3 +1,11 @@
-CREATE SEQUENCE IF NOT EXISTS account_seq START WITH 1 INCREMENT BY 50;
-CREATE SEQUENCE IF NOT EXISTS transaction_seq START WITH 1 INCREMENT BY 50;
-CREATE SEQUENCE IF NOT EXISTS data_source_error_log_seq START WITH 1 INCREMENT BY 50;
+ALTER TABLE client
+ALTER COLUMN id SET DEFAULT nextval('client_seq');
+
+ALTER TABLE account
+ALTER COLUMN id SET DEFAULT nextval('account_seq');
+
+ALTER TABLE transaction
+ALTER COLUMN id SET DEFAULT nextval('transaction_seq');
+
+ALTER TABLE data_source_error_log
+ALTER COLUMN id SET DEFAULT nextval('data_source_error_log_seq');

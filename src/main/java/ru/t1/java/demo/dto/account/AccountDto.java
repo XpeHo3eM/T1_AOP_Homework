@@ -2,9 +2,8 @@ package ru.t1.java.demo.dto.account;
 
 import lombok.Builder;
 import lombok.Value;
-import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.AccountType;
 
-import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 /**
@@ -15,6 +14,6 @@ import java.io.Serializable;
 public class AccountDto implements Serializable {
     Long id;
     Long clientId;
-    Account.Type type;
+    AccountType type;
     Double balance;
 }

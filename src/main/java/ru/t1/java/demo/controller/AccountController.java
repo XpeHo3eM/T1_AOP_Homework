@@ -7,7 +7,6 @@ import ru.t1.java.demo.aop.LogMyException;
 import ru.t1.java.demo.dto.account.AccountDto;
 import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.account.UpdatedAccountDto;
-import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.Collection;
@@ -21,8 +20,9 @@ public class AccountController {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     public AccountDto create(@PathVariable Long clientId, @RequestBody NewAccountDto newAccountDto) {
-        return accountService.create(newAccountDto.toBuilder()
+        return accountService.create(NewAccountDto.builder()
                 .clientId(clientId)
+                .type(newAccountDto.getType())
                 .build());
     }
 
