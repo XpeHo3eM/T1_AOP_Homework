@@ -11,6 +11,7 @@ import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.account.UpdatedAccountDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.repository.AccountRepository;
+import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
 
@@ -23,18 +24,25 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional
 @Validated
-@LogMyException
 public class AccountServiceImpl implements AccountService {
+    private final ClientRepository clientRepository;
     private final AccountRepository accountRepository;
     private final AccountMapper mapper;
 
     @Override
+    @LogMyException
     public AccountDto create(@Valid NewAccountDto newAccountDto) {
+        if (!clientRepository.existsById(newAccountDto.getClientId())) {
+            throw new EntityNotFoundException(String.format("Клиента с id = %d не существует",
+                    newAccountDto.getClientId()));
+        }
+
         return mapper.toDto(accountRepository.save(mapper.toAccount(newAccountDto)));
     }
 
     @Override
     @Transactional(readOnly = true)
+    @LogMyException
     public AccountDto getById(@Valid @Positive Long accountId) {
         return accountRepository.findById(accountId)
                 .map(mapper::toDto)
@@ -42,6 +50,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @LogMyException
     public AccountDto update(@Valid UpdatedAccountDto updatedAccountDto) {
         Long accountId = updatedAccountDto.getAccountId();
         Long clientId = updatedAccountDto.getClientId();
@@ -61,6 +70,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @LogMyException
     public void delete(Long accountId) {
         if (!accountRepository.existsById(accountId)) {
             throw new EntityNotFoundException(String.format("Счет с id = %d не найден", accountId));
@@ -70,6 +80,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @LogMyException
     public Collection<AccountDto> getAll(Long clientId) {
         return accountRepository.findAllByClientId(clientId).stream()
                 .map(mapper::toDto)

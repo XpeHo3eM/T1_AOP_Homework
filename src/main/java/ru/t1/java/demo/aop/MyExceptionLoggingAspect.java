@@ -21,7 +21,7 @@ public class MyExceptionLoggingAspect {
             throwing = "ex")
     public void logging(JoinPoint joinPoint, Throwable ex) {
         dataSourceErrorLogService.create(DataSourceErrorLogDto.builder()
-                .stackTrace(Arrays.toString(ex.getStackTrace()))
+                .stackTrace(Arrays.toString(ex.getStackTrace()).substring(0, 255))
                 .message(ex.getMessage())
                 .signature(joinPoint.getSignature().getName())
                 .build());
