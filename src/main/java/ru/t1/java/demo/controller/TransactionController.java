@@ -12,7 +12,7 @@ import java.util.Collection;
 @RequestMapping("/client/{clientId}/account/{accountId}/transaction/")
 @RequiredArgsConstructor
 public class TransactionController {
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
     @GetMapping
     public Collection<TransactionDto> getAllByClientId(@PathVariable Long accountId) {

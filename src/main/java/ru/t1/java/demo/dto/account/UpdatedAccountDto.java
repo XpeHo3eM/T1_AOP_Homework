@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Value;
 import ru.t1.java.demo.model.Account;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
 /**
@@ -13,8 +15,14 @@ import java.io.Serializable;
 @Value
 @Builder(toBuilder = true)
 public class UpdatedAccountDto implements Serializable {
+    @Positive
     Long clientId;
+
+    @Positive
     Long accountId;
+
+    @NotBlank
     Account.Type type;
+    
     Double balance;
 }

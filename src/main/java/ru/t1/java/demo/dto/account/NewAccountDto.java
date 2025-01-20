@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Data
 @Builder(toBuilder = true)
 public class NewAccountDto implements Serializable {
+    @Positive
     private Long clientId;
 
     @NotNull

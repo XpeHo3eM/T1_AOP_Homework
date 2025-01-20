@@ -3,9 +3,11 @@ package ru.t1.java.demo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.t1.java.demo.aop.LogMyException;
 import ru.t1.java.demo.dto.account.AccountDto;
 import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.account.UpdatedAccountDto;
+import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.Collection;
@@ -30,6 +32,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
+    @LogMyException
     public AccountDto getById(@PathVariable Long id) {
         return accountService.getById(id);
     }

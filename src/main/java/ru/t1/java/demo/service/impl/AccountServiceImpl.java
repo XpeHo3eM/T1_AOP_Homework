@@ -4,6 +4,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import ru.t1.java.demo.aop.LogMyException;
 import ru.t1.java.demo.dto.account.AccountDto;
 import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.account.UpdatedAccountDto;
@@ -12,32 +14,35 @@ import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Validated
+@LogMyException
 public class AccountServiceImpl implements AccountService {
-    private AccountRepository accountRepository;
-    private AccountMapper mapper;
+    private final AccountRepository accountRepository;
+    private final AccountMapper mapper;
 
     @Override
-    public AccountDto create(NewAccountDto newAccountDto) {
+    public AccountDto create(@Valid NewAccountDto newAccountDto) {
         return mapper.toDto(accountRepository.save(mapper.toAccount(newAccountDto)));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public AccountDto getById(Long accountId) {
+    public AccountDto getById(@Valid @Positive Long accountId) {
         return accountRepository.findById(accountId)
                 .map(mapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Счет с id = %d не найден", accountId)));
     }
 
     @Override
-    public AccountDto update(UpdatedAccountDto updatedAccountDto) {
+    public AccountDto update(@Valid UpdatedAccountDto updatedAccountDto) {
         Long accountId = updatedAccountDto.getAccountId();
         Long clientId = updatedAccountDto.getClientId();
 
