@@ -9,11 +9,11 @@ import java.util.Collection;
 public interface AccountService {
     AccountDto create(NewAccountDto newAccountDto);
 
-    AccountDto getById(Long accountId);
+    AccountDto getById(Long clientId, Long accountId);
 
     AccountDto update(UpdatedAccountDto updatedAccountDto);
 
-    void delete(Long accountId);
+    void delete(Long clientId, Long accountId);
 
     Collection<AccountDto> getAll(Long clientId);
 }

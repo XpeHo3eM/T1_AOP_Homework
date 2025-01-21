@@ -1,0 +1,509 @@
+{
+	"info": {
+		"_postman_id": "8e6ed73e-5b22-4f06-8985-d366c9731d1c",
+		"name": "T1_AOP",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26812906"
+	},
+	"item": [
+		{
+			"name": "Correct",
+			"item": [
+				{
+					"name": "Account",
+					"item": [
+						{
+							"name": "Account create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\" : \"DEBIT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account update",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\" : \"DEBIT\",\r\n    \"balance\" : 123456.78\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transaction",
+					"item": [
+						{
+							"name": "Transaction get all by account",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\" : 66666.66\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction get all by client_id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction get by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/transaction/{{CORRECT_TRANSACTION_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"transaction",
+										"{{CORRECT_TRANSACTION_ID}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Incorrect",
+			"item": [
+				{
+					"name": "Account",
+					"item": [
+						{
+							"name": "Account create incorrect client id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\" : \"CREDIT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/account",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account get with incorrect account_id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{INCORRECT_ACCOUNT_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{INCORRECT_ACCOUNT_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account patch incorrect client_id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\" : \"DEBIT\",\r\n    \"balance\" : 123456.78\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account patch incorrect account_id",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\" : \"DEBIT\",\r\n    \"balance\" : 123456.78\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{INCORRECT_ACCOUNT_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{INCORRECT_ACCOUNT_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get all accounts with incorrect client_id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/account",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"account"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Transaction",
+					"item": [
+						{
+							"name": "Transaction get all with incorrect client_id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction get all by account with incorrect client_id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction get all by account with incorrect account_id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{INCORRECT_ACCOUNT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{INCORRECT_ACCOUNT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction create with incorrect client_id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\" : 66666.66\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction create with incorrect account_id",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\" : 66666.66\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{INCORRECT_ACCOUNT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{INCORRECT_ACCOUNT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction get with incorrect id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "CORRECT_CLIENT_ID",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "INCORRECT_CLIENT_ID",
+			"value": "123456",
+			"type": "string"
+		},
+		{
+			"key": "INCORRECT_ACCOUNT_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CORRECT_ACCOUNT_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "CORRECT_TRANSACTION_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "INCORRECT_TRANSACTION_ID",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

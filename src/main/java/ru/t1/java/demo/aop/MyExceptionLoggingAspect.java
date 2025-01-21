@@ -5,7 +5,7 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.dto.dataSourceErrorLog.DataSourceErrorLogDto;
+import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
 import ru.t1.java.demo.service.DataSourceErrorLogService;
 
 import java.util.Arrays;
@@ -20,7 +20,11 @@ public class MyExceptionLoggingAspect {
             pointcut = "@annotation(ru.t1.java.demo.aop.LogMyException)",
             throwing = "ex")
     public void logging(JoinPoint joinPoint, Throwable ex) {
-        dataSourceErrorLogService.create(DataSourceErrorLogDto.builder()
+        logError(joinPoint, ex);
+    }
+
+    private void logError(JoinPoint joinPoint, Throwable ex) {
+        dataSourceErrorLogService.create(NewDataSourceErrorLogDto.builder()
                 .stackTrace(Arrays.toString(ex.getStackTrace()).substring(0, 255))
                 .message(ex.getMessage())
                 .signature(joinPoint.getSignature().getName())

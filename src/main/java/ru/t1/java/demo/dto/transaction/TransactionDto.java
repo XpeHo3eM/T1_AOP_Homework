@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Value
 @Builder(toBuilder = true)
 public class TransactionDto implements Serializable {
+    Long id;
     Long accountId;
     Double amount;
     LocalDateTime createdAt;

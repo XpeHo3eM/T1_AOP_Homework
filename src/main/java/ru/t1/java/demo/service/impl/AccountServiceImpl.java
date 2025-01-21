@@ -32,10 +32,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @LogMyException
     public AccountDto create(@Valid NewAccountDto newAccountDto) {
-        if (!clientRepository.existsById(newAccountDto.getClientId())) {
-            throw new EntityNotFoundException(String.format("Клиента с id = %d не существует",
-                    newAccountDto.getClientId()));
-        }
+        assertClientExists(newAccountDto.getClientId());
 
         return mapper.toDto(accountRepository.save(mapper.toAccount(newAccountDto)));
     }
@@ -43,7 +40,10 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional(readOnly = true)
     @LogMyException
-    public AccountDto getById(@Valid @Positive Long accountId) {
+    public AccountDto getById(@Valid @Positive Long clientId,
+                              @Valid @Positive Long accountId) {
+        assertClientExists(clientId);
+
         return accountRepository.findById(accountId)
                 .map(mapper::toDto)
                 .orElseThrow(() -> new EntityNotFoundException(String.format("Счет с id = %d не найден", accountId)));
@@ -54,6 +54,8 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto update(@Valid UpdatedAccountDto updatedAccountDto) {
         Long accountId = updatedAccountDto.getAccountId();
         Long clientId = updatedAccountDto.getClientId();
+
+        assertClientExists(clientId);
 
         Account accountFromDb = accountRepository.findByIdAndClientId(accountId, clientId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(
@@ -71,7 +73,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @LogMyException
-    public void delete(Long accountId) {
+    public void delete(@Valid @Positive Long clientId,
+                       @Valid @Positive Long accountId) {
         if (!accountRepository.existsById(accountId)) {
             throw new EntityNotFoundException(String.format("Счет с id = %d не найден", accountId));
         }
@@ -81,9 +84,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @LogMyException
-    public Collection<AccountDto> getAll(Long clientId) {
+    public Collection<AccountDto> getAll(@Valid @Positive Long clientId) {
+        assertClientExists(clientId);
+
         return accountRepository.findAllByClientId(clientId).stream()
                 .map(mapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    private void assertClientExists(Long clientId) {
+        if (!clientRepository.existsById(clientId)) {
+            throw new EntityNotFoundException(String.format("Клиент с id = %d не найден", clientId));
+        }
     }
 }

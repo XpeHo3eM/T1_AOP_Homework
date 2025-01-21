@@ -7,6 +7,7 @@ import lombok.*;
 import ru.t1.java.demo.model.AccountType;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
 
@@ -26,6 +27,7 @@ public class UpdatedAccountDto implements Serializable {
     @JsonProperty("type")
     AccountType type;
 
+    @NotNull
     @JsonProperty("balance")
     Double balance;
 }

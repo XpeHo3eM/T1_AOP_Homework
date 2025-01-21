@@ -11,7 +11,11 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 @Entity
 @Table(name = "account")
-public class Account extends AbstractPersistable<Long> {
+public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "client_id")
     private Long clientId;
 

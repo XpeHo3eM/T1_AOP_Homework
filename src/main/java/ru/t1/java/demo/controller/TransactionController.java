@@ -9,23 +9,36 @@ import ru.t1.java.demo.service.TransactionService;
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/client/{clientId}/account/{accountId}/transaction/")
+@RequestMapping("/client/{clientId}")
 @RequiredArgsConstructor
 public class TransactionController {
     private final TransactionService transactionService;
 
-    @GetMapping
-    public Collection<TransactionDto> getAllByClientId(@PathVariable Long accountId) {
-        return transactionService.getAll(accountId);
+    @GetMapping("/transaction")
+    public Collection<TransactionDto> getAllByClientId(@PathVariable Long clientId) {
+        return transactionService.getAll(clientId);
     }
 
-    @PostMapping
-    public TransactionDto createTransaction(@RequestBody NewTransactionDto newTransactionDto) {
-        return transactionService.create(newTransactionDto);
+    @GetMapping("/account/{accountId}/transaction")
+    public Collection<TransactionDto> getAllByAccountId(@PathVariable Long clientId,
+                                                        @PathVariable Long accountId) {
+        return transactionService.getAllByAccount(clientId, accountId);
     }
 
-    @GetMapping("/{transactionId}")
-    public TransactionDto getById(@PathVariable Long transactionId) {
-        return transactionService.getById(transactionId);
+
+    @PostMapping("/account/{accountId}/transaction")
+    public TransactionDto createTransaction(@PathVariable Long clientId,
+                                            @PathVariable Long accountId,
+                                            @RequestBody NewTransactionDto newTransactionDto) {
+        return transactionService.create(newTransactionDto.toBuilder()
+                .clientId(clientId)
+                .accountId(accountId)
+                .build());
+    }
+
+    @GetMapping("/transaction/{transactionId}")
+    public TransactionDto getById(@PathVariable Long clientId,
+                                  @PathVariable Long transactionId) {
+        return transactionService.getById(clientId, transactionId);
     }
 }

@@ -1,8 +1,6 @@
-CREATE SEQUENCE IF NOT EXISTS account_seq START WITH 1 INCREMENT BY 50;
-
 CREATE TABLE IF NOT EXISTS account (
-    id        BIGINT         PRIMARY KEY,
+    id        BIGSERIAL      PRIMARY KEY,
     client_id BIGINT         NOT NULL REFERENCES client(id) ON DELETE CASCADE,
     type      VARCHAR(255)   NOT NULL,
-    balance   NUMERIC(15, 2) DEFAULT 0.00
+    balance   NUMERIC(15, 2) NOT NULL DEFAULT 0.00
 );

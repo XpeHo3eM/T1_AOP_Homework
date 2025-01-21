@@ -1,10 +1,7 @@
 package ru.t1.java.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Getter
 @Setter
@@ -13,13 +10,17 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 @Entity
 @Table(name = "data_source_error_log")
-public class DataSourceErrorLog extends AbstractPersistable<Long> {
+public class DataSourceErrorLog {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Column(name = "stack_trace")
-    String stackTrace;
+    private String stackTrace;
 
     @Column(name = "message")
-    String message;
+    private String message;
 
     @Column(name = "signature")
-    String signature;
+    private String signature;
 }
