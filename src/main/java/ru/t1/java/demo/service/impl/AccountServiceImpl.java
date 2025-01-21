@@ -75,6 +75,8 @@ public class AccountServiceImpl implements AccountService {
     @LogMyException
     public void delete(@Valid @Positive Long clientId,
                        @Valid @Positive Long accountId) {
+        assertClientExists(clientId);
+
         if (!accountRepository.existsById(accountId)) {
             throw new EntityNotFoundException(String.format("Счет с id = %d не найден", accountId));
         }

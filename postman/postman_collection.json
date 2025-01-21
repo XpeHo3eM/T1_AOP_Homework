@@ -68,6 +68,26 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "Account delete",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -175,7 +195,7 @@
 					"name": "Account",
 					"item": [
 						{
-							"name": "Account create incorrect client id",
+							"name": "Account create with incorrect client_id",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -223,7 +243,7 @@
 							"response": []
 						},
 						{
-							"name": "Account patch incorrect client_id",
+							"name": "Account patch with incorrect client_id",
 							"request": {
 								"method": "PATCH",
 								"header": [],
@@ -252,7 +272,7 @@
 							"response": []
 						},
 						{
-							"name": "Account patch incorrect account_id",
+							"name": "Account patch with incorrect account_id",
 							"request": {
 								"method": "PATCH",
 								"header": [],
@@ -294,6 +314,46 @@
 										"client",
 										"{{INCORRECT_CLIENT_ID}}",
 										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account delete with incorrect client_id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{INCORRECT_CLIENT_ID}}/account/{{CORRECT_ACCOUNT_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{INCORRECT_CLIENT_ID}}",
+										"account",
+										"{{CORRECT_ACCOUNT_ID}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account delete with incorrect account_id",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/client/{{CORRECT_CLIENT_ID}}/account/{{INCORRECT_ACCOUNT_ID}}",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"{{CORRECT_CLIENT_ID}}",
+										"account",
+										"{{INCORRECT_ACCOUNT_ID}}"
 									]
 								}
 							},
@@ -487,22 +547,22 @@
 		},
 		{
 			"key": "INCORRECT_ACCOUNT_ID",
-			"value": "",
+			"value": "123456",
 			"type": "string"
 		},
 		{
 			"key": "CORRECT_ACCOUNT_ID",
-			"value": "",
+			"value": "1",
 			"type": "string"
 		},
 		{
 			"key": "CORRECT_TRANSACTION_ID",
-			"value": "",
+			"value": "1",
 			"type": "string"
 		},
 		{
 			"key": "INCORRECT_TRANSACTION_ID",
-			"value": "",
+			"value": "123456",
 			"type": "string"
 		}
 	]
