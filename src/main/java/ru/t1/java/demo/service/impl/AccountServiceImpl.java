@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import ru.t1.java.demo.aop.LogMyException;
+import ru.t1.java.demo.aop.LogDataSourceException;
 import ru.t1.java.demo.dto.account.AccountDto;
 import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.account.UpdatedAccountDto;
@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper mapper;
 
     @Override
-    @LogMyException
+    @LogDataSourceException
     public AccountDto create(@Valid NewAccountDto newAccountDto) {
         assertClientExists(newAccountDto.getClientId());
 
@@ -39,7 +39,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional(readOnly = true)
-    @LogMyException
+    @LogDataSourceException
     public AccountDto getById(@Valid @Positive Long clientId,
                               @Valid @Positive Long accountId) {
         assertClientExists(clientId);
@@ -50,7 +50,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @LogMyException
+    @LogDataSourceException
     public AccountDto update(@Valid UpdatedAccountDto updatedAccountDto) {
         Long accountId = updatedAccountDto.getAccountId();
         Long clientId = updatedAccountDto.getClientId();
@@ -72,7 +72,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @LogMyException
+    @LogDataSourceException
     public void delete(@Valid @Positive Long clientId,
                        @Valid @Positive Long accountId) {
         assertClientExists(clientId);
@@ -85,7 +85,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @LogMyException
+    @LogDataSourceException
     public Collection<AccountDto> getAll(@Valid @Positive Long clientId) {
         assertClientExists(clientId);
 

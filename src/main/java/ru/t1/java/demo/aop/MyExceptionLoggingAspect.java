@@ -17,7 +17,7 @@ public class MyExceptionLoggingAspect {
     private final DataSourceErrorLogService dataSourceErrorLogService;
 
     @AfterThrowing(
-            pointcut = "@annotation(ru.t1.java.demo.aop.LogMyException)",
+            pointcut = "@annotation(ru.t1.java.demo.aop.LogDataSourceException)",
             throwing = "ex")
     public void logging(JoinPoint joinPoint, Throwable ex) {
         logError(joinPoint, ex);

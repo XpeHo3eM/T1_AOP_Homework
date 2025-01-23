@@ -5,11 +5,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import ru.t1.java.demo.aop.LogMyException;
+import ru.t1.java.demo.aop.LogDataSourceException;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionDto;
 import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
@@ -18,7 +17,6 @@ import ru.t1.java.demo.util.TransactionMapper;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +25,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Validated
-@LogMyException
+@LogDataSourceException
 public class TransactionServiceImpl implements TransactionService {
     private final ClientRepository clientRepository;
     private final AccountRepository accountRepository;
@@ -35,7 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper transactionMapper;
 
     @Override
-    @LogMyException
+    @LogDataSourceException
     public Collection<TransactionDto> getAll(@Valid @Positive Long clientId) {
         assertClientExists(clientId);
 
@@ -49,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @LogMyException
+    @LogDataSourceException
     public Collection<TransactionDto> getAllByAccount(Long clientId, Long accountId) {
         assertClientExists(clientId);
         assertAccountExists(accountId);
@@ -61,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    @LogMyException
+    @LogDataSourceException
     public TransactionDto create(@Valid NewTransactionDto newTransactionDto) {
         assertClientExists(newTransactionDto.getClientId());
         assertAccountExists(newTransactionDto.getAccountId());
@@ -70,7 +68,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @LogMyException
+    @LogDataSourceException
     public TransactionDto getById(@Valid @Positive Long clientId,
                                   @Valid @Positive Long transactionId) {
         assertClientExists(clientId);
