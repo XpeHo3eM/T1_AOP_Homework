@@ -13,7 +13,7 @@ import java.util.Arrays;
 @Aspect
 @Component
 @RequiredArgsConstructor
-public class MyExceptionLoggingAspect {
+public class LogDataSourceExceptionAspect {
     private final DataSourceErrorLogService dataSourceErrorLogService;
 
     @AfterThrowing(
