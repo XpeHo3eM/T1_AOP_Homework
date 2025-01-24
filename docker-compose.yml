@@ -13,7 +13,7 @@ services:
       POSTGRES_PASSWORD: postgres
 
   zookeeper_t1:
-    image: confluentinc/cp-zookeeper:5.5.0
+    image: confluentinc/cp-zookeeper
     hostname: zookeeper_t1
     container_name: zookeeper_t1
     ports:
@@ -23,7 +23,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   broker_t1:
-    image: confluentinc/cp-kafka:5.5.0
+    image: confluentinc/cp-kafka
     hostname: broker_t1
     container_name: broker_t1
     depends_on:
@@ -42,14 +42,14 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
 
   broker_2_t1:
-    image: confluentinc/cp-kafka:5.5.0
+    image: confluentinc/cp-kafka
     hostname: broker_2_t1
     container_name: broker_2_t1
     depends_on:
       - zookeeper_t1
     ports:
       - "29093:29092"
-      - "9093:9092"
+      - "9093:9093"
     environment:
       KAFKA_BROKER_ID: 2
       KAFKA_ZOOKEEPER_CONNECT: 'zookeeper_t1:2182'
