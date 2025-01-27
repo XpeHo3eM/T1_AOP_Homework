@@ -24,6 +24,15 @@ public class DefaultKafkaConfig {
     @Value("${t1.kafka.consumer.heartbeat.interval}")
     protected String heartbeatInterval;
 
+    @Value("${t1.kafka.topic.metric}")
+    protected String metricTopic;
+
+    @Value("${t1.kafka.topic.account}")
+    protected String accountTopic;
+
+    @Value("${t1.kafka.topic.transaction}")
+    protected String transactionTopic;
+
     @Value("${t1.kafka.topic.client_id_registered}")
-    protected String clientTopic;
+    protected String clientRegisteredTopic;
 }
