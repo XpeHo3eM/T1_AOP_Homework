@@ -1,7 +1,6 @@
 package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,5 +23,4 @@ public class ClientController {
     public void doSomething(@RequestBody ClientDto clientDto) {
         producer.send(1L);
     }
-
 }

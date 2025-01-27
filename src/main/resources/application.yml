@@ -27,7 +27,10 @@ t1:
       heartbeat.interval: 3000
     producer:
       enable: true
+      metric-enable: true
+      data-source-error-log-enable: true
     topic:
+      metric: t1_demo_metrics
       client_registration: t1_demo_client_registration
       client_id_registered: t1_demo_client_registered
       client_transactions: t1_demo_client_transactions
