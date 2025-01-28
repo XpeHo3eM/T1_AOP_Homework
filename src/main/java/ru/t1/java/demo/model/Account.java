@@ -2,6 +2,7 @@ package ru.t1.java.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 
 @Getter
@@ -25,4 +26,14 @@ public class Account {
 
     @Column(name = "balance")
     private Double balance;
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
+
+    @Column(name = "account_id")
+    private Long accountId;
+
+    @Column(name = "frozen_amount")
+    private Double frozenAmount;
 }

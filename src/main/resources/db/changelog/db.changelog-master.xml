@@ -39,6 +39,11 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="update-account" author="PVNikulin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/28-01-changelog-02.sql"/>
+        <rollback/>
+    </changeSet>
+
     <include file="../data/client.sql" relativeToChangelogFile="true"/>
     <include file="../data/account.sql" relativeToChangelogFile="true"/>
     <include file="../data/transaction.sql" relativeToChangelogFile="true"/>
