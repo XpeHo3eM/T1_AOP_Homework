@@ -2,6 +2,7 @@ package ru.t1.java.demo.dto.transaction;
 
 import lombok.Builder;
 import lombok.Value;
+import ru.t1.java.demo.enums.TransactionStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,4 +17,7 @@ public class TransactionDto implements Serializable {
     Long accountId;
     Double amount;
     LocalDateTime createdAt;
+    TransactionStatus status;
+    Long transactionId;
+    LocalDateTime timestamp;
 }
