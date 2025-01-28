@@ -2,10 +2,8 @@ package ru.t1.java.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.AbstractPersistable;
-import ru.t1.java.demo.enums.TransactionStatus;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Getter

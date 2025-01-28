@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
-import ru.t1.java.demo.enums.KafkaHeader;
+import ru.t1.java.demo.kafka.enums.KafkaHeader;
 import ru.t1.java.demo.exception.KafkaException;
 
 @Slf4j
