@@ -19,7 +19,7 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.FixedBackOff;
-import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.dto.client.ClientDto;
 import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
 import ru.t1.java.demo.dto.metric.NewMetricDto;
@@ -36,7 +36,7 @@ import java.util.Map;
 public class KafkaConfig<T> extends DefaultKafkaConfig {
     @Bean
     public ConsumerFactory<String, ClientDto> consumerListenerFactory() {
-        Map<String, Object> props = generateDefaultProps("ru.t1.java.demo.dto.ClientDto");
+        Map<String, Object> props = generateDefaultProps("ru.t1.java.demo.dto.client.ClientDto");
 
         DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, ClientDto>(props);
         factory.setKeyDeserializer(new StringDeserializer());

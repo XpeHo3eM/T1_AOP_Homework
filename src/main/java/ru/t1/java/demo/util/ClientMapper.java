@@ -1,7 +1,7 @@
 package ru.t1.java.demo.util;
 
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.dto.client.ClientDto;
 import ru.t1.java.demo.model.Client;
 
 @Component

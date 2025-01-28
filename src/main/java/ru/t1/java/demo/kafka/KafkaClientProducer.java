@@ -3,7 +3,7 @@ package ru.t1.java.demo.kafka;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
-import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.dto.client.ClientDto;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

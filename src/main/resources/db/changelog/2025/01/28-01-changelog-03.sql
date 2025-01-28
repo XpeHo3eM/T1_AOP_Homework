@@ -1,0 +1,2 @@
+ALTER TABLE client
+ADD client_id BIGINT NOT NULL UNIQUE;
