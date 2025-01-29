@@ -4,13 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import ru.t1.java.demo.config.DefaultKafkaConfig;
-import ru.t1.java.demo.config.KafkaConfig;
-import ru.t1.java.demo.dto.metric.NewMetricDto;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionAcceptDto;
 import ru.t1.java.demo.exception.KafkaException;
-import ru.t1.java.demo.kafka.enums.KafkaHeader;
-import ru.t1.java.demo.model.enums.TransactionStatus;
 
 @RequiredArgsConstructor
 public class KafkaTransactionProducer {
