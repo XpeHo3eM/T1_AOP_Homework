@@ -6,6 +6,7 @@ import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Transaction}
@@ -18,6 +19,6 @@ public class TransactionDto implements Serializable {
     Double amount;
     LocalDateTime createdAt;
     TransactionStatus status;
-    Long transactionId;
+    UUID transactionId;
     LocalDateTime timestamp;
 }

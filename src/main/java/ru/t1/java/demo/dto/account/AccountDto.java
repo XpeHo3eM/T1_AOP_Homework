@@ -6,6 +6,7 @@ import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Account}
@@ -18,6 +19,6 @@ public class AccountDto implements Serializable {
     AccountType type;
     Double balance;
     AccountStatus status;
-    Long accountId;
+    UUID accountId;
     Double frozenAmount;
 }

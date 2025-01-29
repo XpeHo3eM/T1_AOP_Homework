@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.io.Serializable;
 
 /**
@@ -23,6 +26,7 @@ public class NewTransactionDto implements Serializable {
     private Long accountId;
 
     @NotNull
+    @PositiveOrZero
     @JsonProperty("amount")
     private Double amount;
 }

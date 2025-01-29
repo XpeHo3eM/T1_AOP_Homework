@@ -5,6 +5,7 @@ import lombok.*;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -32,7 +33,7 @@ public class Transaction {
     private TransactionStatus status;
 
     @Column(name = "transaction_id")
-    private Long transactionId;
+    private UUID transactionId;
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;

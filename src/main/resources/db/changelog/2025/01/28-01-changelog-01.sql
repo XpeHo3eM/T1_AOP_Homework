@@ -2,7 +2,7 @@ ALTER TABLE transaction
 ADD status VARCHAR(255) NOT NULL;
 
 ALTER TABLE transaction
-ADD transaction_id BIGINT NOT NULL UNIQUE;
+ADD transaction_id UUID NOT NULL UNIQUE;
 
 ALTER TABLE transaction
 ADD timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP;

@@ -1,9 +1,11 @@
 package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionDto;
+import ru.t1.java.demo.kafka.KafkaTransactionProducer;
 import ru.t1.java.demo.service.TransactionService;
 
 import java.util.Collection;
@@ -12,6 +14,7 @@ import java.util.Collection;
 @RequestMapping("/client/{clientId}")
 @RequiredArgsConstructor
 public class TransactionController {
+    private final KafkaTransactionProducer producer;
     private final TransactionService transactionService;
 
     @GetMapping("/transaction")
@@ -27,10 +30,11 @@ public class TransactionController {
 
 
     @PostMapping("/account/{accountId}/transaction")
-    public TransactionDto createTransaction(@PathVariable Long clientId,
-                                            @PathVariable Long accountId,
-                                            @RequestBody NewTransactionDto newTransactionDto) {
-        return transactionService.create(newTransactionDto.toBuilder()
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void createTransaction(@PathVariable Long clientId,
+                                  @PathVariable Long accountId,
+                                  @RequestBody NewTransactionDto newTransactionDto) {
+        producer.send(newTransactionDto.toBuilder()
                 .clientId(clientId)
                 .accountId(accountId)
                 .build());

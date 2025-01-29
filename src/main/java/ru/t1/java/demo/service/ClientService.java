@@ -4,7 +4,10 @@ import ru.t1.java.demo.model.Client;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 public interface ClientService {
     List<Client> parseJson() throws IOException;
+
+    UUID getUUIDbyId(Long clientId);
 }

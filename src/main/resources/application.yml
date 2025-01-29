@@ -29,10 +29,15 @@ t1:
       enable: true
       metric-enable: true
       data-source-error-log-enable: true
+      transaction-enable: true
     topic:
       metric: t1_demo_metrics
       account: t1_demo_accounts
-      transaction: t1_demo_transactions
+      transactions:
+        default: t1_demo_transactions
+        accepted: t1_demo_transaction_accept
+        result: t1_demo_transaction_result
+
       client_registration: t1_demo_client_registration
       client_id_registered: t1_demo_client_registered
       client_transactions: t1_demo_client_transactions

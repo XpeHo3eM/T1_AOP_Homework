@@ -5,11 +5,13 @@ import org.mapstruct.Mapping;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionDto;
 import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "timestamp", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "status", constant = "REQUESTED")
     Transaction toTransaction(NewTransactionDto newTransactionDto);
 
     TransactionDto toDto(Transaction transaction);

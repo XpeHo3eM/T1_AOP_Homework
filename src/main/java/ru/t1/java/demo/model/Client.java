@@ -2,7 +2,8 @@ package ru.t1.java.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -26,5 +27,5 @@ public class Client {
     private String middleName;
 
     @Column(name = "client_id")
-    private Long client_id;
+    private UUID clientId;
 }

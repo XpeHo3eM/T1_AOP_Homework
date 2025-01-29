@@ -1,5 +1,6 @@
 package ru.t1.java.demo.config;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -19,24 +20,30 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.FixedBackOff;
-import ru.t1.java.demo.dto.client.ClientDto;
+import ru.t1.java.demo.dto.account.AccountDto;
 import ru.t1.java.demo.dto.account.NewAccountDto;
+import ru.t1.java.demo.dto.client.ClientDto;
 import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
 import ru.t1.java.demo.dto.metric.NewMetricDto;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
+import ru.t1.java.demo.dto.transaction.TransactionAcceptDto;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.kafka.KafkaDataSourceExceptionProducer;
 import ru.t1.java.demo.kafka.KafkaMetricProducer;
+import ru.t1.java.demo.kafka.KafkaTransactionProducer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
 @Configuration
-public class KafkaConfig<T> extends DefaultKafkaConfig {
+@RequiredArgsConstructor
+public class KafkaConfig<T> {
+    private final DefaultKafkaConfig config;
+
     @Bean
     public ConsumerFactory<String, ClientDto> consumerListenerFactory() {
-        Map<String, Object> props = generateDefaultProps("ru.t1.java.demo.dto.client.ClientDto");
+        Map<String, Object> props = generateDefaultProps(ClientDto.class);
 
         DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, ClientDto>(props);
         factory.setKeyDeserializer(new StringDeserializer());
@@ -45,7 +52,7 @@ public class KafkaConfig<T> extends DefaultKafkaConfig {
 
     @Bean
     public ConsumerFactory<String, NewAccountDto> consumerAccountListenerFactory() {
-        Map<String, Object> props = generateDefaultProps("ru.t1.java.demo.dto.account.NewAccountDto");
+        Map<String, Object> props = generateDefaultProps(NewAccountDto.class);
 
         DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, NewAccountDto>(props);
         factory.setKeyDeserializer(new StringDeserializer());
@@ -54,7 +61,7 @@ public class KafkaConfig<T> extends DefaultKafkaConfig {
 
     @Bean
     public ConsumerFactory<String, NewTransactionDto> consumerTransactionListenerFactory() {
-        Map<String, Object> props = generateDefaultProps("ru.t1.java.demo.dto.transaction.NewTransactionDto");
+        Map<String, Object> props = generateDefaultProps(NewTransactionDto.class);
 
         DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, NewTransactionDto>(props);
         factory.setKeyDeserializer(new StringDeserializer());
@@ -97,7 +104,7 @@ public class KafkaConfig<T> extends DefaultKafkaConfig {
             havingValue = "true",
             matchIfMissing = true)
     public KafkaClientProducer producerClient(@Qualifier("client") KafkaTemplate<String, ClientDto> template) {
-        template.setDefaultTopic(clientRegisteredTopic);
+        template.setDefaultTopic(config.getClientRegisteredTopic());
 
         return new KafkaClientProducer(template);
     }
@@ -107,7 +114,7 @@ public class KafkaConfig<T> extends DefaultKafkaConfig {
             havingValue = "true",
             matchIfMissing = true)
     public KafkaMetricProducer metricProducer(KafkaTemplate<String, NewMetricDto> template) {
-        template.setDefaultTopic(metricTopic);
+        template.setDefaultTopic(config.getMetricTopic());
 
         return new KafkaMetricProducer(template);
     }
@@ -117,15 +124,24 @@ public class KafkaConfig<T> extends DefaultKafkaConfig {
             havingValue = "true",
             matchIfMissing = true)
     public KafkaDataSourceExceptionProducer dataSourceExceptionProducer(KafkaTemplate<String, NewDataSourceErrorLogDto> template) {
-        template.setDefaultTopic(metricTopic);
+        template.setDefaultTopic(config.getMetricTopic());
 
         return new KafkaDataSourceExceptionProducer(template);
     }
 
+    @Bean
+    @ConditionalOnProperty(value = "t1.kafka.producer.transaction-enable",
+            havingValue = "true",
+            matchIfMissing = true)
+    public KafkaTransactionProducer transactionProducer(KafkaTemplate<String, TransactionAcceptDto> template) {
+        return new KafkaTransactionProducer(template, config);
+    }
+
+
     @Bean("producerClientFactory")
     public ProducerFactory<String, T> producerClientFactory() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getServers());
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         props.put(ProducerConfig.RETRIES_CONFIG, 3);
@@ -134,22 +150,22 @@ public class KafkaConfig<T> extends DefaultKafkaConfig {
         return new DefaultKafkaProducerFactory<>(props);
     }
 
-    private Map<String, Object> generateDefaultProps(String valueDefaultType) {
+    private <T> Map<String, Object> generateDefaultProps(Class<T> tClass) {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getServers());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getGroupId());
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, valueDefaultType);
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, tClass);
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
-        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
-        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, maxPartitionFetchBytes);
-        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, maxPollRecords);
-        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollIntervalsMs);
+        props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, config.getSessionTimeout());
+        props.put(ConsumerConfig.MAX_PARTITION_FETCH_BYTES_CONFIG, config.getMaxPartitionFetchBytes());
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, config.getMaxPollRecords());
+        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, config.getMaxPollIntervalsMs());
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, Boolean.FALSE);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
-        props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, heartbeatInterval);
+        props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, config.getHeartbeatInterval());
 
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
         props.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, JsonDeserializer.class);

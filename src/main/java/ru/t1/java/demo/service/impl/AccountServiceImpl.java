@@ -9,7 +9,9 @@ import ru.t1.java.demo.annotation.LogDataSourceException;
 import ru.t1.java.demo.dto.account.AccountDto;
 import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.account.UpdatedAccountDto;
+import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.AccountService;
@@ -22,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 @Validated
 public class AccountServiceImpl implements AccountService {
     private final ClientRepository clientRepository;
@@ -30,6 +32,7 @@ public class AccountServiceImpl implements AccountService {
     private final AccountMapper mapper;
 
     @Override
+    @Transactional
     @LogDataSourceException
     public AccountDto create(@Valid NewAccountDto newAccountDto) {
         assertClientExists(newAccountDto.getClientId());
@@ -38,28 +41,24 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     @LogDataSourceException
     public AccountDto getById(@Valid @Positive Long clientId,
                               @Valid @Positive Long accountId) {
         assertClientExists(clientId);
 
-        return accountRepository.findById(accountId)
-                .map(mapper::toDto)
-                .orElseThrow(() -> new EntityNotFoundException(String.format("Счет с id = %d не найден", accountId)));
+        return mapper.toDto(getAccountOrThrowException(clientId, accountId));
     }
 
     @Override
+    @Transactional
     @LogDataSourceException
     public AccountDto update(@Valid UpdatedAccountDto updatedAccountDto) {
-        Long accountId = updatedAccountDto.getAccountId();
         Long clientId = updatedAccountDto.getClientId();
+        Long accountId = updatedAccountDto.getAccountId();
 
         assertClientExists(clientId);
 
-        Account accountFromDb = accountRepository.findByIdAndClientId(accountId, clientId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(
-                        "Пользователь с id = %d не имеет счета с id = %d", clientId, accountId)));
+        Account accountFromDb = getAccountOrThrowException(clientId, accountId);
 
         if (updatedAccountDto.getBalance() != null) {
             accountFromDb.setBalance(updatedAccountDto.getBalance());
@@ -72,14 +71,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     @LogDataSourceException
     public void delete(@Valid @Positive Long clientId,
                        @Valid @Positive Long accountId) {
         assertClientExists(clientId);
-
-        if (!accountRepository.existsById(accountId)) {
-            throw new EntityNotFoundException(String.format("Счет с id = %d не найден", accountId));
-        }
 
         accountRepository.deleteById(accountId);
     }
@@ -94,9 +90,35 @@ public class AccountServiceImpl implements AccountService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @LogDataSourceException
+    public boolean isOpenAccount(@Valid @Positive Long accountId) {
+        return accountRepository.existsByIdAndStatus(accountId, AccountStatus.OPEN);
+    }
+
+    @Override
+    @Transactional
+    @LogDataSourceException
+    public AccountDto updateAccountBalance(@Valid NewTransactionDto newTransactionDto) {
+        assertClientExists(newTransactionDto.getClientId());
+
+        Account accountFromDb = getAccountOrThrowException(newTransactionDto.getClientId(),
+                newTransactionDto.getAccountId());
+
+        accountFromDb.setBalance(accountFromDb.getBalance() - newTransactionDto.getAmount());
+
+        return mapper.toDto(accountFromDb);
+    }
+
     private void assertClientExists(Long clientId) {
         if (!clientRepository.existsById(clientId)) {
             throw new EntityNotFoundException(String.format("Клиент с id = %d не найден", clientId));
         }
+    }
+
+    private Account getAccountOrThrowException(Long clientId, Long accountId) {
+        return accountRepository.findByIdAndClientId(accountId, clientId)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(
+                        "Пользователь с id = %d не имеет счета с id = %d", clientId, accountId)));
     }
 }

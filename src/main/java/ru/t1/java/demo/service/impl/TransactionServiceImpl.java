@@ -9,6 +9,8 @@ import ru.t1.java.demo.annotation.LogDataSourceException;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionDto;
 import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
@@ -19,6 +21,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -64,7 +67,12 @@ public class TransactionServiceImpl implements TransactionService {
         assertClientExists(newTransactionDto.getClientId());
         assertAccountExists(newTransactionDto.getAccountId());
 
-        return transactionMapper.toDto(transactionRepository.save(transactionMapper.toTransaction(newTransactionDto)));
+        Transaction transaction = transactionMapper.toTransaction(newTransactionDto).toBuilder()
+                .transactionId(UUID.randomUUID())
+                .status(TransactionStatus.REQUESTED)
+                .build();
+
+        return transactionMapper.toDto(transactionRepository.save(transaction));
     }
 
     @Override

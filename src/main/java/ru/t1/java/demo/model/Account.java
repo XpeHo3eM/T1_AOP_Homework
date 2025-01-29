@@ -5,6 +5,8 @@ import lombok.*;
 import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Builder(toBuilder = true)
@@ -32,7 +34,7 @@ public class Account {
     private AccountStatus status;
 
     @Column(name = "account_id")
-    private Long accountId;
+    private UUID accountId;
 
     @Column(name = "frozen_amount")
     private Double frozenAmount;
