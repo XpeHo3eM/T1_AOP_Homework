@@ -2,8 +2,8 @@ package ru.t1.java.demo.dto.account;
 
 import lombok.Builder;
 import lombok.Value;
-import ru.t1.java.demo.model.enums.AccountStatus;
-import ru.t1.java.demo.model.enums.AccountType;
+import ru.t1.java.demo.enums.AccountStatus;
+import ru.t1.java.demo.enums.AccountType;
 
 import java.io.Serializable;
 import java.util.UUID;

@@ -9,6 +9,11 @@
       </persistence-unit>
       <persistence-unit moduleName="t1-java-demo" name="Default" />
       <persistence-unit moduleName="general" name="Default" />
+      <persistence-unit moduleName="second-service" name="Default">
+        <packages>
+          <package value="ru.t1.java.demo" />
+        </packages>
+      </persistence-unit>
     </persistence-units>
   </component>
 </project>

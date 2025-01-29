@@ -2,7 +2,7 @@ package ru.t1.java.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.t1.java.demo.model.enums.TransactionStatus;
+import ru.t1.java.demo.enums.TransactionStatus;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

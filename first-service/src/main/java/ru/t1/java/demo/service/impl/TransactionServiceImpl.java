@@ -10,7 +10,7 @@ import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.model.enums.TransactionStatus;
+import ru.t1.java.demo.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.repository.TransactionRepository;

@@ -1,7 +1,6 @@
 package ru.t1.java.demo.config;
 
 import lombok.Getter;
-import lombok.experimental.UtilityClass;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -48,4 +47,10 @@ public class DefaultKafkaConfig {
 
     @Value("${t1.kafka.topic.client_id_registered}")
     private String clientRegisteredTopic;
+
+    @Value("${t1.kafka.limit.transactionCountPerTime:5")
+    private int transactionCountPerTime;
+
+    @Value("${t1.kafka.limit.transactionTimeIntervalMs:10000")
+    private int transactionTimeIntervalMs;
 }

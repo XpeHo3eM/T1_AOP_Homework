@@ -2,7 +2,7 @@ package ru.t1.java.demo.dto.transaction;
 
 import lombok.Builder;
 import lombok.Value;
-import ru.t1.java.demo.model.enums.TransactionStatus;
+import ru.t1.java.demo.enums.TransactionStatus;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

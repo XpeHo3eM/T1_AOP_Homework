@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model.enums;
+package ru.t1.java.demo.enums;
 
 public enum AccountStatus {
     ARRESTED,

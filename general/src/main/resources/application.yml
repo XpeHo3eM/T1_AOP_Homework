@@ -37,9 +37,11 @@ t1:
         default: t1_demo_transactions
         accepted: t1_demo_transaction_accept
         result: t1_demo_transaction_result
-
       client_registration: t1_demo_client_registration
       client_id_registered: t1_demo_client_registered
       client_transactions: t1_demo_client_transactions
     listener:
       poll-timeout: 1000
+    limit:
+      transactionCountPerTime: 3
+      transactionTimeIntervalMs: 10000

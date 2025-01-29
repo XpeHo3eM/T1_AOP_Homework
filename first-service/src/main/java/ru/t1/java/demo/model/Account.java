@@ -2,8 +2,8 @@ package ru.t1.java.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ru.t1.java.demo.model.enums.AccountStatus;
-import ru.t1.java.demo.model.enums.AccountType;
+import ru.t1.java.demo.enums.AccountStatus;
+import ru.t1.java.demo.enums.AccountType;
 
 import java.util.UUID;
 

@@ -11,7 +11,7 @@ import ru.t1.java.demo.dto.account.NewAccountDto;
 import ru.t1.java.demo.dto.account.UpdatedAccountDto;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.enums.AccountStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.AccountService;

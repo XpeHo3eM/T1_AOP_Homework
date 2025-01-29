@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.t1.java.demo.model.enums.AccountType;
+import ru.t1.java.demo.enums.AccountType;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
