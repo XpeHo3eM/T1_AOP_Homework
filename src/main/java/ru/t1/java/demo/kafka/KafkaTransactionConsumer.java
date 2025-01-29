@@ -32,21 +32,16 @@ public class KafkaTransactionConsumer {
         try {
             newTransactionDtos.stream()
                     .filter(newTransactionDto -> accountService.isOpenAccount(newTransactionDto.getAccountId()))
-                    .forEach(transaction -> {
-                        TransactionDto transactionFromDb = transactionService.create(transaction);
-
-                        AccountDto accountFromDb = accountService.getById(transaction.getClientId(), transaction.getAccountId());
-                        accountFromDb.toBuilder()
-                                .balance(accountFromDb.getBalance() - transaction.getAmount())
-                                .build();
-
-                        UUID clientUUID = clientService.getUUIDbyId(transaction.getClientId());
+                    .forEach(newTransactionDto -> {
+                        TransactionDto transactionFromDb = transactionService.create(newTransactionDto);
+                        AccountDto accountFromDb = accountService.updateAccountBalance(newTransactionDto);
+                        UUID clientUUID = clientService.getUUIDbyId(newTransactionDto.getClientId());
 
                         producer.send(TransactionAcceptDto.builder()
                                 .clientId(clientUUID)
                                 .accountId(accountFromDb.getAccountId())
                                 .transactionId(transactionFromDb.getTransactionId())
-                                .transactionAmount(transaction.getAmount())
+                                .transactionAmount(newTransactionDto.getAmount())
                                 .accountBalance(accountFromDb.getBalance())
                                 .timestamp(LocalDateTime.now())
                                 .build());
