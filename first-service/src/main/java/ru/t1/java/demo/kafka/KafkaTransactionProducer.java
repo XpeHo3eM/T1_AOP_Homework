@@ -5,8 +5,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.kafka.core.KafkaTemplate;
 import ru.t1.java.demo.config.DefaultKafkaConfig;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
-import ru.t1.java.demo.dto.TransactionAcceptDto;
+import ru.t1.java.demo.dto.transaction.TransactionAcceptDto;
 import ru.t1.java.demo.exception.KafkaException;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 public class KafkaTransactionProducer {
@@ -23,7 +25,7 @@ public class KafkaTransactionProducer {
 
     private <T> void sendTemplate(String topic, T dto) {
         try {
-            template.send(new ProducerRecord<>(topic, dto)).get();
+            template.send(new ProducerRecord<>(topic, UUID.randomUUID().toString(), dto)).get();
         } catch (Exception ex) {
             throw new KafkaException(ex.getMessage(), ex);
         } finally {

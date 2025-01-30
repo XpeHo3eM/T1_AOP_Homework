@@ -8,6 +8,8 @@ import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
 import ru.t1.java.demo.kafka.enums.KafkaHeader;
 import ru.t1.java.demo.exception.KafkaException;
 
+import java.util.UUID;
+
 @Slf4j
 @RequiredArgsConstructor
 public class KafkaDataSourceExceptionProducer {
@@ -24,7 +26,9 @@ public class KafkaDataSourceExceptionProducer {
     }
 
     private <T> ProducerRecord<String, T> createProcedureRecord(T dto, KafkaHeader header) {
-        ProducerRecord<String, T> record = new ProducerRecord<>(template.getDefaultTopic(), dto);
+        ProducerRecord<String, T> record = new ProducerRecord<>(template.getDefaultTopic(),
+                UUID.randomUUID().toString(),
+                dto);
         record.headers().add("X-TYPE", header.toString().getBytes());
 
         return record;

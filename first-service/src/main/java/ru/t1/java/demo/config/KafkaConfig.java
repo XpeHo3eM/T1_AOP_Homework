@@ -25,7 +25,7 @@ import ru.t1.java.demo.dto.client.ClientDto;
 import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
 import ru.t1.java.demo.dto.metric.NewMetricDto;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
-import ru.t1.java.demo.dto.TransactionAcceptDto;
+import ru.t1.java.demo.dto.transaction.TransactionAcceptDto;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.kafka.KafkaDataSourceExceptionProducer;
 import ru.t1.java.demo.kafka.KafkaMetricProducer;

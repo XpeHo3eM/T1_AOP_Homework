@@ -21,8 +21,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.FixedBackOff;
 import ru.t1.java.demo.config.DefaultKafkaConfig;
-import ru.t1.java.demo.dto.TransactionAcceptDto;
-import ru.t1.java.demo.kafka.KafkaTransactionProducer;
+import ru.t1.java.demo.dto.transaction.TransactionAcceptDto;
+import ru.t1.java.demo.dto.transaction.TransactionResultDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -55,8 +55,20 @@ public class KafkaConfig<T> {
     @ConditionalOnProperty(value = "t1.kafka.producer.transaction-enable",
             havingValue = "true",
             matchIfMissing = true)
-    public KafkaTransactionProducer transactionResultProducer(KafkaTemplate<String, TransactionAcceptDto> template) {
-        return new KafkaTransactionProducer(template, config);
+    public KafkaTransactionProducer transactionResultProducer(@Qualifier("producerTransactionResultFactory") ProducerFactory<String, T> producerPatFactory) {
+        return new KafkaTransactionProducer(new KafkaTemplate<>(producerPatFactory), config);
+    }
+
+    @Bean("producerTransactionResultFactory")
+    public ProducerFactory<String, T> producerTransactionResultFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, config.getServers());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.RETRIES_CONFIG, 3);
+        props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000);
+        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, false);
+        return new DefaultKafkaProducerFactory<>(props);
     }
 
     private <T> Map<String, Object> generateDefaultProps(Class<T> tClass) {

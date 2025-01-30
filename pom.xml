@@ -142,12 +142,6 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta-validation.version}</version>
         </dependency>
-        <dependency>
-            <groupId>ru.t1.java.demo</groupId>
-            <artifactId>general</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <build>

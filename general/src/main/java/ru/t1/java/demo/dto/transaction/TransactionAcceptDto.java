@@ -1,8 +1,7 @@
-package ru.t1.java.demo.dto;
+package ru.t1.java.demo.dto.transaction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -11,7 +10,9 @@ import java.util.UUID;
 /**
  * DTO for {@link ru.t1.java.demo.model.Transaction}
  */
-@Value
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
 public class TransactionAcceptDto implements Serializable {
     @JsonProperty("client_id")

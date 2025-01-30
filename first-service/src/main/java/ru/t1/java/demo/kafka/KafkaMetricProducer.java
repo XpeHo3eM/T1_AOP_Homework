@@ -7,6 +7,8 @@ import ru.t1.java.demo.dto.metric.NewMetricDto;
 import ru.t1.java.demo.kafka.enums.KafkaHeader;
 import ru.t1.java.demo.exception.KafkaException;
 
+import java.util.UUID;
+
 @RequiredArgsConstructor
 public class KafkaMetricProducer {
     private final KafkaTemplate template;
@@ -22,7 +24,9 @@ public class KafkaMetricProducer {
     }
 
     private <T> ProducerRecord<String, T> createProcedureRecord(T dto, KafkaHeader header) {
-        ProducerRecord<String, T> record = new ProducerRecord<>(template.getDefaultTopic(), dto);
+        ProducerRecord<String, T> record = new ProducerRecord<>(template.getDefaultTopic(),
+                UUID.randomUUID().toString(),
+                dto);
         record.headers().add("X-TYPE", header.toString().getBytes());
 
         return record;

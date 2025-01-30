@@ -48,9 +48,9 @@ public class DefaultKafkaConfig {
     @Value("${t1.kafka.topic.client_id_registered}")
     private String clientRegisteredTopic;
 
-    @Value("${t1.kafka.limit.transactionCountPerTime:5")
-    private int transactionCountPerTime;
+    @Value("${t1.kafka.limit.transactionCountPerTime:5}")
+    private Long transactionCountPerTime;
 
-    @Value("${t1.kafka.limit.transactionTimeIntervalMs:10000")
-    private int transactionTimeIntervalMs;
+    @Value("${t1.kafka.limit.transactionTimeIntervalMs:10000}")
+    private Long transactionTimeIntervalMs;
 }

@@ -7,7 +7,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.account.AccountDto;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
-import ru.t1.java.demo.dto.TransactionAcceptDto;
+import ru.t1.java.demo.dto.transaction.TransactionAcceptDto;
 import ru.t1.java.demo.dto.transaction.TransactionDto;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.ClientService;
