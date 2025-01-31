@@ -6,6 +6,7 @@ import ru.t1.java.demo.dto.account.UpdatedAccountDto;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 
 import java.util.Collection;
+import java.util.Map;
 
 public interface AccountService {
     AccountDto create(NewAccountDto newAccountDto);
@@ -17,6 +18,11 @@ public interface AccountService {
     void delete(Long clientId, Long accountId);
 
     Collection<AccountDto> getAll(Long clientId);
+
     boolean isOpenAccount(Long accountId);
+
     AccountDto updateAccountBalance(NewTransactionDto newTransactionDto);
+
+    void blockAccounts(Map<Long, Double> accountIds);
+    void rejectAccounts(Map<Long, Double> accountIds);
 }

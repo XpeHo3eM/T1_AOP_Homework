@@ -4,6 +4,8 @@ import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionDto;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.UUID;
 
 public interface TransactionService {
     Collection<TransactionDto> getAll(Long clientId);
@@ -12,4 +14,8 @@ public interface TransactionService {
     TransactionDto create(NewTransactionDto newTransactionDto);
 
     TransactionDto getById(Long clientId, Long transactionId);
+
+    void acceptTransactions(Collection<UUID> transactionIds);
+    Collection<TransactionDto> blockTransactions(Collection<UUID> transactionIds);
+    Collection<TransactionDto> rejectTransactions(Collection<UUID> transactionIds);
 }

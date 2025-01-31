@@ -28,7 +28,6 @@ public class KafkaTransactionConsumer {
     public void listener(@Payload List<TransactionAcceptDto> transactionAcceptDtos,
                          Acknowledgment ack) {
         try {
-
             Set<TransactionResultDto> resultDtos = new HashSet<>();
 
             for (TransactionAcceptDto transactionAcceptDto : transactionAcceptDtos) {

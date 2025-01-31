@@ -9,8 +9,9 @@ import ru.t1.java.demo.model.Transaction;
 @Mapper(componentModel = "spring")
 public interface TransactionMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
-    @Mapping(target = "timestamp", expression = "java(java.time.LocalDateTime.now())")
     @Mapping(target = "status", constant = "REQUESTED")
+    @Mapping(target = "transactionId", expression = "java(java.util.UUID.randomUUID())")
+    @Mapping(target = "timestamp", expression = "java(java.time.LocalDateTime.now())")
     Transaction toTransaction(NewTransactionDto newTransactionDto);
 
     TransactionDto toDto(Transaction transaction);

@@ -20,6 +20,7 @@ import ru.t1.java.demo.util.AccountMapper;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.Collection;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -108,6 +109,41 @@ public class AccountServiceImpl implements AccountService {
         accountFromDb.setBalance(accountFromDb.getBalance() - newTransactionDto.getAmount());
 
         return mapper.toDto(accountFromDb);
+    }
+
+    @Override
+    @Transactional
+    @LogDataSourceException
+    public void blockAccounts(Map<Long, Double> accountIds) {
+        if (accountIds.isEmpty()) {
+            return;
+        }
+
+        Collection<Account> accounts = accountRepository.findAllByIdIn(accountIds.keySet());
+
+        for (Account account : accounts) {
+            account.setStatus(AccountStatus.BLOCKED);
+
+            final Double frozenAmount = accountIds.get(account.getId());
+            account.setBalance(account.getBalance() + frozenAmount);
+            account.setFrozenAmount(account.getFrozenAmount() + frozenAmount);
+        }
+    }
+
+    @Override
+    @Transactional
+    @LogDataSourceException
+    public void rejectAccounts(Map<Long, Double> accountIds) {
+        if (accountIds.isEmpty()) {
+            return;
+        }
+
+        Collection<Account> accounts = accountRepository.findAllByIdIn(accountIds.keySet());
+
+        for (Account account : accounts) {
+            final Double rejectAmount = accountIds.get(account.getId());
+            account.setBalance(account.getBalance() + rejectAmount);
+        }
     }
 
     private void assertClientExists(Long clientId) {

@@ -26,6 +26,7 @@ import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
 import ru.t1.java.demo.dto.metric.NewMetricDto;
 import ru.t1.java.demo.dto.transaction.NewTransactionDto;
 import ru.t1.java.demo.dto.transaction.TransactionAcceptDto;
+import ru.t1.java.demo.dto.transaction.TransactionResultDto;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.kafka.KafkaDataSourceExceptionProducer;
 import ru.t1.java.demo.kafka.KafkaMetricProducer;
@@ -68,6 +69,15 @@ public class KafkaConfig<T> {
     }
 
     @Bean
+    public ConsumerFactory<String, TransactionResultDto> consumerTransactionResultListenerFactory() {
+        Map<String, Object> props = generateDefaultProps(TransactionResultDto.class);
+
+        DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, TransactionResultDto>(props);
+        factory.setKeyDeserializer(new StringDeserializer());
+        return factory;
+    }
+
+    @Bean
     ConcurrentKafkaListenerContainerFactory<String, ClientDto> kafkaListenerContainerFactory(@Qualifier("consumerListenerFactory") ConsumerFactory<String, ClientDto> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<String, ClientDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factoryBuilder(consumerFactory, factory);
@@ -87,6 +97,15 @@ public class KafkaConfig<T> {
     ConcurrentKafkaListenerContainerFactory<String, NewTransactionDto> kafkaTransactionListenerContainerFactory(
             @Qualifier("consumerTransactionListenerFactory") ConsumerFactory<String, NewTransactionDto> consumerFactory) {
         ConcurrentKafkaListenerContainerFactory<String, NewTransactionDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factoryBuilder(consumerFactory, factory);
+
+        return factory;
+    }
+
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, TransactionResultDto> kafkaTransactionResultListenerContainerFactory(
+            @Qualifier("consumerTransactionResultListenerFactory") ConsumerFactory<String, TransactionResultDto> consumerFactory) {
+        ConcurrentKafkaListenerContainerFactory<String, TransactionResultDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factoryBuilder(consumerFactory, factory);
 
         return factory;

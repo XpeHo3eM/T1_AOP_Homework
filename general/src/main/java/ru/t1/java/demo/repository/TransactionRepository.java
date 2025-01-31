@@ -6,6 +6,7 @@ import ru.t1.java.demo.model.Transaction;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     @Query("SELECT t" +
@@ -16,4 +17,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     Collection<Transaction> findAllByAccountIdWithLimit(Long accountId, Long limit);
     Collection<Transaction> findAllByAccountId(Long accountId);
     Collection<Transaction> findAllByAccountIdIn(List<Long> accountIds);
+    Collection<Transaction> findAllByTransactionIdIn(Collection<UUID> transactionIds);
 }
