@@ -19,6 +19,7 @@ import ru.t1.java.demo.util.TransactionMapper;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -108,6 +109,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         for (Transaction transaction : transactions) {
             transaction.setStatus(TransactionStatus.BLOCKED);
+            transaction.setTimestamp(LocalDateTime.now());
         }
 
         return transactions.stream()
@@ -133,6 +135,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         for (Transaction transaction : transactions) {
             transaction.setStatus(status);
+            transaction.setTimestamp(LocalDateTime.now());
         }
 
         return transactions;
