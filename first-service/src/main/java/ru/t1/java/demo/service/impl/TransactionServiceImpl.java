@@ -98,7 +98,19 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     @LogDataSourceException
     public Collection<TransactionDto> blockTransactions(Collection<UUID> transactionIds) {
-        return updateTransactionsStatus(transactionIds, TransactionStatus.BLOCKED).stream()
+        if (transactionIds.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        List<Transaction> transactions = transactionRepository.findAllByTransactionIdInAndStatusNot(transactionIds,
+                        TransactionStatus.BLOCKED).stream()
+                .toList();
+
+        for (Transaction transaction : transactions) {
+            transaction.setStatus(TransactionStatus.BLOCKED);
+        }
+
+        return transactions.stream()
                 .map(transactionMapper::toDto)
                 .toList();
     }

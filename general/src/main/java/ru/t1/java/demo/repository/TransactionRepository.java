@@ -2,6 +2,7 @@ package ru.t1.java.demo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import ru.t1.java.demo.enums.TransactionStatus;
 import ru.t1.java.demo.model.Transaction;
 
 import java.util.Collection;
@@ -15,7 +16,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
             " ORDER BY t.timestamp DESC" +
             " LIMIT :limit")
     Collection<Transaction> findAllByAccountIdWithLimit(Long accountId, Long limit);
+
     Collection<Transaction> findAllByAccountId(Long accountId);
+
     Collection<Transaction> findAllByAccountIdIn(List<Long> accountIds);
+
     Collection<Transaction> findAllByTransactionIdIn(Collection<UUID> transactionIds);
+
+    Collection<Transaction> findAllByTransactionIdInAndStatusNot(Collection<UUID> transactionIds, TransactionStatus status);
 }
