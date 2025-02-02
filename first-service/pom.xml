@@ -9,13 +9,14 @@
     </parent>
 
     <artifactId>first-service</artifactId>
+    <version>1.0</version>
 
     <dependencies>
         <dependency>
             <groupId>ru.t1.java.demo</groupId>
             <artifactId>general</artifactId>
-            <version>${project.version}</version>
-            <scope>compile</scope>
+            <version>1.0</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
