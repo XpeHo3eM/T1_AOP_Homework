@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "8e6ed73e-5b22-4f06-8985-d366c9731d1c",
-		"name": "T1_AOP",
+		"name": "T1",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "26812906"
 	},
@@ -499,6 +499,191 @@
 										"client",
 										"{{INCORRECT_CLIENT_ID}}",
 										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Kafka",
+			"item": [
+				{
+					"name": "Task3 chain",
+					"item": [
+						{
+							"name": "Account create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\" : \"DEBIT\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/1000/account",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"1000",
+										"account"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Account set cash",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"type\" : \"DEBIT\",\r\n    \"balance\" : 10000\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/1000/account/1001",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"1000",
+										"account",
+										"1001"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transaction create",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"amount\" : 300\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/client/1000/account/1001/transaction",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"client",
+										"1000",
+										"account",
+										"1001",
+										"transaction"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "LogDataErrorAnnotation",
+					"item": [
+						{
+							"name": "Client CRUD exception",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{URL}}/test/crud",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"test",
+										"crud"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "MetricAnnotation",
+					"item": [
+						{
+							"name": "Client long time working method",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/test/long",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"test",
+										"long"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Client short time working method",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"first_name\" : \"Ivanov\",\r\n    \"last_name\" : \"Ivan\",\r\n    \"middle_name\" : \"Ivanovich\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/test/short",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"test",
+										"short"
 									]
 								}
 							},

@@ -11,22 +11,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
 
-  first-service:
-    build: first-service/
-    container_name: first-service
-    ports:
-      - "8081:8081"
-    depends_on:
-      - postgres
-
-  second-service:
-    build: second-service/
-    container_name: second-service
-    ports:
-      - "8082:8082"
-    depends_on:
-      - postgres
-
   zookeeper_t1:
     image: confluentinc/cp-zookeeper
     hostname: zookeeper_t1
@@ -74,3 +58,29 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+  first-service:
+    build: first-service/
+    container_name: first-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+      - broker_t1
+      - broker_2_t1
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/t1_demo
+      - T1_KAFKA_BOOTSTRAP_SERVER=broker_t1:29092,broker_2_t1:29093
+
+  second-service:
+    build: second-service/
+    container_name: second-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres
+      - broker_t1
+      - broker_2_t1
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/t1_demo
+      - T1_KAFKA_BOOTSTRAP_SERVER=broker_t1:29092,broker_2_t1:29093
