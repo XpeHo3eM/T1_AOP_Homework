@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AmplicodePersistenceUnitSettings">
+    <persistence-units>
+      <persistence-unit moduleName="first-service" name="Default">
+        <packages>
+          <package value="ru.t1.java.firstService" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="general" name="Default" />
+      <persistence-unit moduleName="second-service" name="Default">
+        <packages>
+          <package value="ru.t1.java.secondService" />
+        </packages>
+      </persistence-unit>
+    </persistence-units>
+  </component>
+</project>
