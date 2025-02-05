@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Transaction}
@@ -18,7 +17,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NewTransactionDto implements Serializable {
+public class NewTransactionDto {
     private Long clientId;
     private Long accountId;
 

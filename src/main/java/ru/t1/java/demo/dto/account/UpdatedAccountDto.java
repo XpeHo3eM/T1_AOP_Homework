@@ -3,13 +3,14 @@ package ru.t1.java.demo.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.t1.java.demo.model.AccountType;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
-import java.io.Serializable;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Account}
@@ -19,15 +20,15 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class UpdatedAccountDto implements Serializable {
-    Long clientId;
-    Long accountId;
+public class UpdatedAccountDto {
+    private Long clientId;
+    private Long accountId;
 
     @NotBlank
     @JsonProperty("type")
-    AccountType type;
+    private AccountType type;
 
     @NotNull
     @JsonProperty("balance")
-    Double balance;
+    private Double balance;
 }

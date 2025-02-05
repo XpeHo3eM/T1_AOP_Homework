@@ -3,7 +3,6 @@ package ru.t1.java.demo.dto.transaction;
 import lombok.Builder;
 import lombok.Value;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
  */
 @Value
 @Builder(toBuilder = true)
-public class TransactionDto implements Serializable {
+public class TransactionDto {
     Long id;
     Long accountId;
     Double amount;

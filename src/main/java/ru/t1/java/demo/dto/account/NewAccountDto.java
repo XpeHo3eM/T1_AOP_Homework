@@ -10,7 +10,6 @@ import ru.t1.java.demo.model.AccountType;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
-import java.io.Serializable;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Account}
@@ -20,7 +19,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder(toBuilder = true)
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NewAccountDto implements Serializable {
+public class NewAccountDto {
     @Positive
     private Long clientId;
 
