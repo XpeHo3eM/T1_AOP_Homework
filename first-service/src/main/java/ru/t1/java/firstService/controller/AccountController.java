@@ -7,6 +7,7 @@ import ru.t1.java.general.dto.account.AccountDto;
 import ru.t1.java.firstService.dto.account.NewAccountDto;
 import ru.t1.java.firstService.dto.account.UpdatedAccountDto;
 import ru.t1.java.firstService.service.AccountService;
+import ru.t1.java.starter.annotation.LogHttp;
 
 import java.util.Collection;
 
@@ -18,6 +19,7 @@ public class AccountController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
+    @LogHttp
     public AccountDto create(@PathVariable Long clientId,
                              @RequestBody NewAccountDto newAccountDto) {
         return accountService.create(NewAccountDto.builder()
