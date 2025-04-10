@@ -2,7 +2,7 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    url: "jdbc:postgresql://localhost:5432/t1_demo"
+    url: "jdbc:postgresql://localhost:5431/t1_demo"
     username: "postgres"
     password: "postgres"
     driverClassName: org.postgresql.Driver
@@ -14,6 +14,10 @@ logging:
   level:
     ROOT: ${LOG_LEVEL:INFO}
     ru.t1.java.demo.controller.ClientController: DEBUG
+
+log:
+  enable: true
+  type: "WARN"
 
 t1:
   scan-path: ru.t1.java.demo
