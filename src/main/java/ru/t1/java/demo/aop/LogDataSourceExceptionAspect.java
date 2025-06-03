@@ -6,6 +6,8 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.dataSourceErrorLog.NewDataSourceErrorLogDto;
+import ru.t1.java.demo.exception.KafkaException;
+import ru.t1.java.demo.kafka.KafkaDataSourceExceptionProducer;
 import ru.t1.java.demo.service.DataSourceErrorLogService;
 
 import java.util.Arrays;
@@ -15,15 +17,22 @@ import java.util.Arrays;
 @RequiredArgsConstructor
 public class LogDataSourceExceptionAspect {
     private final DataSourceErrorLogService dataSourceErrorLogService;
+    private final KafkaDataSourceExceptionProducer kafkaDataSourceExceptionProducer;
 
     @AfterThrowing(
-            pointcut = "@annotation(ru.t1.java.demo.aop.LogDataSourceException)",
+            pointcut = "@annotation(ru.t1.java.demo.annotation.LogDataSourceException)",
             throwing = "ex")
     public void logging(JoinPoint joinPoint, Throwable ex) {
-        dataSourceErrorLogService.create(NewDataSourceErrorLogDto.builder()
+        NewDataSourceErrorLogDto newDataSourceErrorLogDto = NewDataSourceErrorLogDto.builder()
                 .stackTrace(Arrays.toString(ex.getStackTrace()).substring(0, 255))
                 .message(ex.getMessage())
                 .signature(joinPoint.getSignature().getName())
-                .build());
+                .build();
+
+        try {
+            kafkaDataSourceExceptionProducer.send(newDataSourceErrorLogDto);
+        } catch (KafkaException e) {
+            dataSourceErrorLogService.create(newDataSourceErrorLogDto);
+        }
     }
 }
