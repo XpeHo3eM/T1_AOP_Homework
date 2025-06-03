@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: t1-java-demo
+  datasource:
+    url: "jdbc:postgresql://postgres:5432/t1_demo"
+    username: "postgres"
+    password: "postgres"
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: false
+
+logging:
+  level:
+    ROOT: ${LOG_LEVEL:INFO}
+    ru.t1.java.demo.controller.ClientController: DEBUG
+
+t1:
+  scan-path: ru.t1.java.demo
+  kafka:
+    bootstrap:
+      server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: t1-demo
+      max.poll.records: 10
+      session-timeout: 10000
+      heartbeat.interval: 3000
+    producer:
+      enable: true
+      metric-enable: true
+      data-source-error-log-enable: true
+      transaction-enable: true
+    topic:
+      metric: t1_demo_metrics
+      account: t1_demo_accounts
+      transactions:
+        default: t1_demo_transactions
+        accepted: t1_demo_transaction_accept
+        result: t1_demo_transaction_result
+      client_registration: t1_demo_client_registration
+      client_id_registered: t1_demo_client_registered
+      client_transactions: t1_demo_client_transactions
+    listener:
+      poll-timeout: 1000
+    limit:
+      transactionCountPerTime: 3
+      transactionTimeIntervalMs: 10000

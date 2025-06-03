@@ -2,7 +2,18 @@
 <project version="4">
   <component name="AmplicodePersistenceUnitSettings">
     <persistence-units>
+      <persistence-unit moduleName="general" name="Default" />
+      <persistence-unit moduleName="second-service" name="Default">
+        <packages>
+          <package value="ru.t1.java.demo" />
+        </packages>
+      </persistence-unit>
       <persistence-unit moduleName="t1-java-demo" name="Default">
+        <packages>
+          <package value="ru.t1.java.firstService" />
+        </packages>
+      </persistence-unit>
+      <persistence-unit moduleName="first-service" name="Default">
         <packages>
           <package value="ru.t1.java.firstService" />
         </packages>
