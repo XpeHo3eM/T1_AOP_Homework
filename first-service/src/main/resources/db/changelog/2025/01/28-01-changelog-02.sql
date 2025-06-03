@@ -1,0 +1,8 @@
+ALTER TABLE account
+ADD status VARCHAR(255) NOT NULL;
+
+ALTER TABLE account
+ADD account_id UUID NOT NULL UNIQUE;
+
+ALTER TABLE account
+ADD frozen_amount NUMERIC(15, 2) DEFAULT 0.00;
