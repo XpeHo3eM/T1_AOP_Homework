@@ -1,2 +1,0 @@
-ALTER TABLE client
-ADD client_id UUID NOT NULL UNIQUE;
